@@ -1,8 +1,14 @@
 <?php
-
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ErrorController;
+
+
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +33,18 @@ Route::get('/users/{id}', [UserController::class, 'read']);
 Route::get('/users', [UserController::class, 'readAll']);
 //PUT http://localhost:8000/api/users/22
 Route::put('/users/{id}', [UserController::class, 'update']);
+
+
+//http://localhost:8000/api/errore-di-prova
+Route::get('/errore-di-prova',[ErrorController::class,'error']);
+
+//POST http://localhost:8000/api/reviews
+Route::post('/reviews', [ReviewController::class, 'create']);
+//DELETE http://localhost:8000/api/reviews/7 
+Route::delete('/reviews/{id}', [ReviewController::class, 'delete']);
+//GET http://localhost:8000/api/reviews/3
+Route::get('/reviews/{id}', [ReviewController::class, 'read']);
+//GET http://localhost:8000/api/reviews
+Route::get('/reviews', [ReviewController::class, 'readAll']);
+//PUT http://localhost:8000/api/reviews/22
+Route::put('/reviews/{id}', [ReviewController::class, 'update']);

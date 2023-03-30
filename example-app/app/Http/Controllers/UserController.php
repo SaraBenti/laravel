@@ -33,7 +33,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\User;//se non si usa la use quando si attiva la classe user la va a cercare come namespace
+//nel namespace di dove ci si trova, quindi qui app/http/controllers
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -48,6 +49,8 @@ class UserController extends Controller
         //title VARCHAR 255 DEFAULT NULL
         //https://laravel.com/docs/10.x/validation
         $validator = Validator::make($request->all(), [
+
+            'username' => ['required', 'max:255'],
             'name' => ['required', 'max:255'],
             'surname' => ['required', 'max:255'],
             'email' => ['required', 'max:255', 'email'],
@@ -120,6 +123,7 @@ class UserController extends Controller
 
         //https://laravel.com/docs/10.x/validation
         $validator = Validator::make($request->all(), [
+            'username' => ['required', 'max:255'],
             'name' => ['required', 'max:255'],
             'surname' => ['required', 'max:255'],
             'email' => ['required', 'max:255', 'email'],
@@ -134,7 +138,21 @@ class UserController extends Controller
         }
 
         //Ora eseguo la UPDATE su database
+        $user= User::where('id','=',$id)->firstOrFail();
+        //leggo da db qui sopra per poi modificare
 
+        $user->username=$request->input('username');
+        $user->name=$request->input('name');
+        $user->surname=$request->input('surname');
+        $user->email=$request->input('email');
+        $user->age=$request->input('age');
+        $user->title=$request->input('title');//il validator mi fa i controlli
+        //se non avessi il validator sarebbe un error lato server
+        $user->save();
+
+        return response()->json($user,200);
 
     }
+   
+
 }
