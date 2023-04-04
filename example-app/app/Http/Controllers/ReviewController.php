@@ -11,8 +11,10 @@ class ReviewController extends Controller
         $validator = Validator::make($request->all(), [
             'description' => ['required', 'max:255'],
             'stars' => ['required', 'integer','min:1','max:5'],
-            'user_id' => ['required', 'exists:users,id']
+            'user_id' => ['required', 'exists:users,id'],
+            'hotel_id' => ['required', 'exists:hotels,id']
             //exist=quel campo deve esistere nella tabella user
+            //→vincolo che permette di non creare errori a livello di server
         ]);
         if($validator->fails()) {
             return response()->json([
@@ -23,6 +25,7 @@ class ReviewController extends Controller
         $review->description=$request->input('description');
         $review->stars=$request->input('stars');
         $review->user_id = $request->input('user_id');
+        $review->hotel_id = $request->input('hotel_id');
        $review->save();
        return response()->json($review,201);
 
@@ -40,8 +43,9 @@ class ReviewController extends Controller
 
     }
     public function readAll(Request $request) {
-    
-        $reviews= Review::with('user')->get();
+    //Operazione di SELECT su DB
+        //SELECT * FROM reviews JOIN users ON reviews.user_id=users.id
+        $reviews= Review::with(['user','hotel'])->get();
         //aggiungendo with user gli dico di caricare tutti i dati anche dell'altra tabella
         //praticamente una join in automatico
         return response()->json($reviews,200);
@@ -52,7 +56,8 @@ class ReviewController extends Controller
         $validator = Validator::make($request->all(), [
             'description' => ['required', 'max:255'],
             'stars' => ['required', 'integer','min:1','max:5'],
-            'user_id' => ['required', 'exists:users,id']
+            'user_id' => ['required', 'exists:users,id'],
+            'hotel_id' => ['required', 'exists:hotels,id']
         ]);
 
         if($validator->fails()) {
@@ -68,7 +73,7 @@ class ReviewController extends Controller
         $review->description=$request->input('description');
         $review->stars=$request->input('stars');
         $review->user_id = $request->input('user_id');
-      
+        $review->hotel_id = $request->input('hotel_id');
         $review->save();
 
         return response()->json($review,200);

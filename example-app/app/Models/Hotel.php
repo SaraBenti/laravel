@@ -5,14 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Hotel extends Model
 {
     use HasFactory;
     public function reviews()
     {
         return $this->hasMany(Review::class);
-        //anche qui se il campo non è user_id bisogna specificarlo
     }
-
-
 }
