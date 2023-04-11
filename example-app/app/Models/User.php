@@ -11,7 +11,6 @@ class User extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
-        //anche qui se il campo non è user_id bisogna specificarlo
     }
 
 
