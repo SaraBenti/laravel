@@ -17,11 +17,6 @@ return new class extends Migration
             $table->integer('stars');
             $table->timestamps();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on ('users');
-            $table->unsignedBigInteger('hotel_id');
-            $table->foreign('hotel_id')->references('id')->on ('hotels');
-            //questo è il vincolo che collega lo user id all'id in user e che quindi deve esistere
-
         });
     }
 

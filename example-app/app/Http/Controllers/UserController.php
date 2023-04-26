@@ -111,7 +111,7 @@ class UserController extends Controller
     public function readAll(Request $request) {
         //Operazione di SELECT su DB
         //select* from users
-        $users= User::with('review')->get();//in questo modo seleziono tutto e me le mette nella
+        $users= User::get();//in questo modo seleziono tutto e me le mette nella
         //$users che sarà un vettore
         return response()->json($users,200);//200 è comunque un parametro di default
 
