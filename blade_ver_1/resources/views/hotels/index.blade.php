@@ -11,7 +11,7 @@
     <div class="container">
 
 
-        <h1>Elenco hotels</h1>
+        <h1>{{__('hotel_list')}}</h1><!-- chiave all'interno di lang json-->
 
         <a href="/hotels/create">Inserisci nuovo hotel</a>
 
@@ -21,6 +21,8 @@
                     <th>Nome</th>
                     <th>Stelle</th>
                     <th>Indirizzo</th>
+                    <th>Aperto tutto l'anno</th>
+                    <th>Ultima modifica</th>
                     <th>Azioni</th>
                 </tr>
             </thead>
@@ -30,6 +32,18 @@
                         <td>{{$hotel->name}}</td><!-- doppia graffa è come fare l'echo-->
                         <td>{{$hotel->stars}}</td>
                         <td>{{$hotel->address}}</td>
+                        <td>
+                            @if ($hotel->all_year)
+                               <p class="text-success">Si</p> 
+                            @else
+                            <p class="text-danger">No</p> 
+                            @endif
+                        </td>
+                        <td>
+                        @if($hotel->updated_at)
+                        {{$hotel->updated_at->format('d/m/Y H:i:s')}}
+                        @endif
+                    </td>
                         <td>
                             <a href="/hotels/edit/{{$hotel->id}}">Modifica</a>
                             <a href="/hotels/delete/{{$hotel->id}}">Elimina</a>

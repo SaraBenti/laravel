@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Hotel;
 use Illuminate\Http\Request;
+use App;
 
 class HotelController extends Controller
 {
     public function index()
     {
+        App::setLocale('it');
         return view('hotels.index', [ //nome senza estensione blade.php
-            'hotels' => Hotel::get() //array associativo che passa i dati che voglio dare alla vista
+            'hotels' => Hotel::orderBy('stars','desc')->get() //array associativo che passa i dati che voglio dare alla vista
         ]);
     }
 
@@ -42,13 +44,17 @@ class HotelController extends Controller
         $request->validate([
             'name' => ['required', 'max:255'],
             'stars' => ['required', 'integer', 'min:1', 'max:5'],
-            'address' => ['required', 'max:255']
+            'address' => ['required', 'max:255']//non va inserita la validazione del chekbox
         ]);
 
         $hotel = new Hotel();
         $hotel->name = $request->input('name'); //stessa cosa di fare $_REQUEST['name']
         $hotel->stars = $request->input('stars'); //cioè è il name nell'html
         $hotel->address = $request->input('address');
+        $hotel->all_year = $request->has('all_year');//il default viene letto da mysql; il ternaio è necessario per laravel
+        //se lascio il value="" non devo usare input ma has senza ternario
+        //$hotel->all_year = $request->input('all_year')? true : false; 
+//dd($hotel);
         $hotel->save();
         return view('hotels.feedback.created');
     }
@@ -63,6 +69,7 @@ class HotelController extends Controller
         $hotel->name = $request->input('name');
         $hotel->stars = $request->input('stars');
         $hotel->address = $request->input('address');
+        $hotel->all_year = $request->has('all_year');
         $hotel->save();
         return view('hotels.feedback.modified');
     }

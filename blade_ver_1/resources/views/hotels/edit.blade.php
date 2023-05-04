@@ -20,13 +20,30 @@
         </div>
         <div class="mb-3">
             <label for="stars" class="form-label">Stelle</label>
-            <input type="text" class="form-control" id="stars" placeholder="Inserisci le stelle" value ="{{old('stars', $hotel->stars)}}" name="stars">
+            
+            <select class="form-select @error('name')is-invalid @enderror"  name="stars" id="stars" placeholder="Seleziona dall'elenco">
+                <option value="" >Selezionare</option>
+                @for ($i = 1; $i <= 5; $i++)
+                    <option value="{{ $i }}"@selected($i==old('stars',$hotel->stars))>{{ $i }}
+                        @if($i==1)
+                        stella
+                    @else
+                        stelle
+                @endif
+                </option>
+                @endfor
+            </select>
         </div>
         <div class="mb-3">
             <label for="address" class="form-label">Indirizzo</label>
             <input type="text" class="form-control" id="address" placeholder="Inserisci l'indirizzo dell'hotel" value ="{{old('address', $hotel->address)}}" name="address">
         </div>
-
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" value="" id="all_year" name="all_year" @checked(old('all_year',$hotel->all_year))>
+            <label class="form-check-label" for="all_year">
+              Aperto tutto l'anno
+            </label>
+        </div>
         <a href="/hotels" class="btn btn-secondary">Indietro</a>
 
         <button type="submit" class="btn btn-primary">Salva</button>
