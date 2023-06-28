@@ -11,7 +11,9 @@
     <div class="container">
 
 
-        <h1>{{__('hotel_list')}}</h1><!-- chiave all'interno di lang json-->
+        <h1>{{__('hotel_list')}}</h1><!--
+            __ è una funzione
+            chiave all'interno di lang json-->
 
         <a href="/hotels/create">Inserisci nuovo hotel</a>
 
@@ -51,6 +53,44 @@
                     </tr>
                 @endforeach
             </tbody>
+
+<!--CON IL FORELSE 
+
+            <tbody>
+                @forelse($hotels as $hotel)
+                    <tr>
+                        <td>{{$hotel->name}}</td>
+                        <td>{{$hotel->stars}}</td>
+                        <td>{{$hotel->address}}</td>
+                        <td>
+                            @if($hotel->all_year)
+                                Si
+                            @else
+                                No
+                            @endif
+                        </td>
+                        <td>
+                            @if($hotel->updated_at)
+                            {{$hotel->updated_at->format('d/m/Y H:i:s')}}
+                            @endif
+                        </td>
+                        <td>
+                            <a href="/hotels/edit/{{$hotel->id}}">Modifica</a>
+                            <a href="/hotels/delete/{{$hotel->id}}">Elimina</a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6">
+                            Attualmente non ci sono hotel su database
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+
+        -->
+
+
         </table>
     </div>
     @include ('footer')
